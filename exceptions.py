@@ -16,3 +16,6 @@ class BadHoursError(OESCException):
     or not a number at all)."""
     def __init__(self, hours):
         self.hours = hours
+
+class InvalidNameError(OESCException):
+    """Raised on an invalid human name, like someone without a first name"""

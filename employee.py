@@ -1,5 +1,5 @@
 from typing import Optional
-from exceptions import InvalidIdError, BadHoursError
+from exceptions import InvalidIdError, BadHoursError, InvalidNameError
 
 def is_valid_id(id:str) -> bool:
     """Check if an ID meets our requirements:
@@ -17,6 +17,11 @@ def is_valid_id(id:str) -> bool:
         return False
     return True
 
+def is_ascii_alpha(data:str) -> bool:
+    for c in data.upper():
+        if ord(c) < 65 or ord(c) > 90:
+            return False
+    return True
 
 class Employee:
     def __init__(self, id:str, last_name:str, first_name:str, middle_name:Optional[str] = None):
@@ -39,11 +44,13 @@ class Employee:
     
     def set_name(self, last_name:Optional[str] = None, first_name:Optional[str] = None, middle_name:Optional[str] = None):
         """Validate input and store new name. Middle name is optional."""
-        if last_name:
+        if last_name is not None:
             self._last_name = last_name
-        if first_name:
+        if first_name is not None:
+            if first_name == "":
+                raise InvalidNameError()
             self._first_name = first_name
-        if middle_name:
+        if middle_name is not None:
             self._middle_name = middle_name
     
     def set_available_hours(self, num_hours:int):
