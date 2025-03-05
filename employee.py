@@ -55,6 +55,8 @@ class Employee:
     
     def set_available_hours(self, num_hours:int):
         try:
+            if not isinstance(num_hours, int):
+                raise BadHoursError(num_hours)
             as_int = int(num_hours)
             if as_int < 0:
                 raise BadHoursError(num_hours)
@@ -63,3 +65,6 @@ class Employee:
             self._available_hours = num_hours
         except ValueError as exception:
             raise BadHoursError(num_hours) from exception
+        
+    def get_available_hours(self):
+        return self._available_hours

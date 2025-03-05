@@ -78,3 +78,40 @@ class TestEmployee(unittest.TestCase):
     def test_create_employee_with_middle_name(self):
         new_employee = employee.Employee("123456", "Doe", "John", "Q.")
         self.assertEqual(new_employee._middle_name, "Q.")
+
+    def test_set_available_hours_normal_hours(self):
+        new_employee = employee.Employee("123456", "Doe", "John")
+        new_employee.set_available_hours(40)
+
+    def test_set_available_hours_too_big(self):
+        new_employee = employee.Employee("123456", "Doe", "John")
+        with self.assertRaises(exceptions.BadHoursError):
+            new_employee.set_available_hours(24*7+2)
+
+    def test_set_available_hours_too_small(self):
+        new_employee = employee.Employee("123456", "Doe", "John")
+        with self.assertRaises(exceptions.BadHoursError):
+            new_employee.set_available_hours(-1)
+
+    def test_set_available_hours_non_number(self):
+        new_employee = employee.Employee("123456", "Doe", "John")
+        with self.assertRaises(exceptions.BadHoursError):
+            new_employee.set_available_hours("Forty two")
+
+    def test_set_available_hours_non_int(self):
+        new_employee = employee.Employee("123456", "Doe", "John")
+        with self.assertRaises(exceptions.BadHoursError):
+            new_employee.set_available_hours(12.345)
+
+    def test_get_available_hours_init_condition(self):
+        new_employee = employee.Employee("123456", "Doe", "John")
+        hours = new_employee.get_available_hours()
+        self.assertIsNone(hours)
+
+    def test_get_available_hours_after_set(self):
+        new_employee = employee.Employee("123456", "Doe", "John")
+        new_employee.set_available_hours(40)
+        hours = new_employee.get_available_hours()
+        self.assertEqual(hours, 40)
+
+
